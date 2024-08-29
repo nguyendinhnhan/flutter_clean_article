@@ -35,6 +35,23 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  ionicons: ^0.2.2
+
+  # Networking
+  retrofit: ^4.2.0
+  dio: ^5.6.0
+
+  # State Management
+  flutter_bloc: ^8.1.6
+
+  # Others
+  flutter_hooks: ^0.20.5
+  get_it: ^7.7.0
+  floor: ^1.5.0
+  equatable: ^2.0.5
+  oktoast: ^3.4.0
+  awesome_dio_interceptor: ^1.2.0
+  auto_route: ^9.2.2
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +63,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
+  auto_route_generator: ^9.0.0
+  retrofit_generator: ^8.2.0
+  floor_generator: ^1.5.0
+  build_runner: ^2.4.12
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
