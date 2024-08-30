@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
 
-// import '../../config/router/app_router.dart';
+import '../../config/router/app_router.dart';
 import '../../domain/models/article.dart';
 import '../../utils/extensions/scroll_controller.dart';
 import '../cubits/remote_articles/remote_articles_cubit.dart';
@@ -34,8 +34,7 @@ class BreakingNewsView extends HookWidget {
         ),
         actions: [
           GestureDetector(
-            // onTap: () => appRouter.push(const SavedArticlesViewRoute()),
-            onTap: () => {},
+            onTap: () => appRouter.push(const SavedArticlesViewRoute()),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
               child: Icon(Ionicons.bookmark, color: Colors.black),
@@ -76,10 +75,9 @@ class BreakingNewsView extends HookWidget {
           delegate: SliverChildBuilderDelegate(
             (context, index) => ArticleWidget(
               article: articles[index],
-              // onArticlePressed: (e) => appRouter.push(
-              //   ArticleDetailsViewRoute(article: e),
-              // ),
-              onArticlePressed: (e) => {},
+              onArticlePressed: (e) => appRouter.push(
+                ArticleDetailsViewRoute(article: e),
+              ),
             ),
             childCount: articles.length,
           ),
