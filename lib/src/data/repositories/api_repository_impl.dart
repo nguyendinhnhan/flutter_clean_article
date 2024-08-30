@@ -15,12 +15,22 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
     required BreakingNewsRequest request,
   }) {
     return getStateOf<BreakingNewsResponse>(
-      request: () => _newsApiService.getBreakingNewsArticles(
-        apiKey: request.apiKey,
-        sources: request.sources,
-        page: request.page,
-        pageSize: request.pageSize,
-      ),
+      request: () async {
+        print('getStateOf');
+        try {
+          final response = await _newsApiService.getBreakingNewsArticles(
+            apiKey: request.apiKey,
+            sources: request.sources,
+            page: request.page,
+            pageSize: request.pageSize,
+          );
+          print('response: $response');
+          return response;
+        } catch (e) {
+          print('error: $e');
+          throw Exception('Failed to fetch breaking news articles: $e');
+        }
+      },
     );
   }
 }

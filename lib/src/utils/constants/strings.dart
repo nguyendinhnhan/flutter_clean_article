@@ -3,7 +3,7 @@ const String appTitle = 'Flutter Clean Architecture';
 
 // Networking and APIs
 const String baseUrl = 'https://newsapi.org/v2';
-const String defaultApiKey = 'ff957763c54c44d8b00e5e082bc76cb0';
+const String defaultApiKey = '058dc1d8f0564d6387c3f1889ebbb977';
 const String defaultSources = 'bbc-news, abc-news, al-jazeera-english';
 
 // Storage and Databases
