@@ -11,7 +11,7 @@ import '../cubits/local_articles/local_articles_cubit.dart';
 class ArticleDetailsView extends HookWidget {
   final Article article;
 
-  const ArticleDetailsView({Key? key, required this.article}) : super(key: key);
+  const ArticleDetailsView({super.key, required this.article});
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +79,19 @@ class ArticleDetailsView extends HookWidget {
       width: double.maxFinite,
       height: 250,
       margin: const EdgeInsets.only(top: 14),
-      child: Image.network(
-        article.urlToImage ?? '',
-        fit: BoxFit.cover,
-        alignment: Alignment.topCenter,
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.08),
       ),
+      child: Image.network(article.urlToImage ?? '',
+          fit: BoxFit.cover,
+          alignment: Alignment.topCenter, errorBuilder: (_, __, ___) {
+        return const Center(
+          child: Text(
+            '404\nNOT FOUND',
+            textAlign: TextAlign.center,
+          ),
+        );
+      }),
     );
   }
 

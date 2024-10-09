@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../domain/models/article.dart';
+import '../../utils/extensions/date_time.dart';
 
 class ArticleWidget extends StatelessWidget {
   final Article article;
@@ -10,12 +11,12 @@ class ArticleWidget extends StatelessWidget {
   final void Function(Article article)? onArticlePressed;
 
   const ArticleWidget({
-    Key? key,
+    super.key,
     required this.article,
     this.onArticlePressed,
     this.isRemovable = false,
     this.onRemove,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class ArticleWidget extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20.0),
         child: Container(
-          width: MediaQuery.of(context).size.width / 3,
+          width: MediaQuery.of(context).size.width / 2.5,
           height: double.maxFinite,
           decoration: BoxDecoration(
             color: Colors.black.withOpacity(0.08),
@@ -103,7 +104,7 @@ class ArticleWidget extends StatelessWidget {
                 const Icon(Ionicons.time_outline, size: 16),
                 const SizedBox(width: 4),
                 Text(
-                  article.publishedAt ?? '',
+                  article.publishedAt.toFormattedDate(),
                   style: const TextStyle(
                     fontSize: 12,
                   ),

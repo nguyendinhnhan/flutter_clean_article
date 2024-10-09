@@ -20,7 +20,7 @@ class ApiRepositoryImpl extends BaseApiRepository implements ApiRepository {
         try {
           final response = await _newsApiService.getBreakingNewsArticles(
             apiKey: request.apiKey,
-            sources: request.sources,
+            sources: request.source,
             page: request.page,
             pageSize: request.pageSize,
           );

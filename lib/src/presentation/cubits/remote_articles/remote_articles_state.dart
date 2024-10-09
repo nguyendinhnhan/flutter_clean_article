@@ -3,7 +3,7 @@ part of 'remote_articles_cubit.dart';
 abstract class RemoteArticlesState extends Equatable {
   final List<Article> articles;
   final bool noMoreData;
-  final DioError? error;
+  final DioException? error;
 
   const RemoteArticlesState({
     this.articles = const [],

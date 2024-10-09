@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import '../../../domain/models/article.dart';
 import '../../../domain/models/requests/breaking_news_request.dart';
 import '../../../domain/repositories/api_repository.dart';
-import '../../../utils/constants/nums.dart';
+import '../../../utils/constants/strings.dart';
 import '../../../utils/resources/data_state.dart';
 import '../base/base_cubit.dart';
 
@@ -18,18 +18,30 @@ class RemoteArticlesCubit
       : super(const RemoteArticlesLoading(), []);
 
   int _page = 1;
+  bool noMoreData = false;
 
-  Future<void> getBreakingNewsArticles() async {
-    if (isBusy) return;
+  void resetPage() {
+    _page = 1;
+    noMoreData = false;
+  }
+
+  Future<void> getBreakingNewsArticles({String? source = defaultSource}) async {
+    if (isBusy || noMoreData) return;
 
     await run(() async {
+      emit(const RemoteArticlesLoading());
+
+      if (_page == 1) {
+        data.clear();
+      }
       final response = await _apiRepository.getBreakingNewsArticles(
-        request: BreakingNewsRequest(page: _page),
+        request: BreakingNewsRequest(page: _page, source: source!),
       );
 
       if (response is DataSuccess) {
         final articles = response.data!.articles;
-        final noMoreData = articles.length < defaultPageSize;
+
+        noMoreData = articles.length >= response.data!.totalResults;
 
         data.addAll(articles);
         _page++;

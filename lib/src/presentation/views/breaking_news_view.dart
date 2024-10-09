@@ -6,21 +6,26 @@ import 'package:ionicons/ionicons.dart';
 
 import '../../config/router/app_router.dart';
 import '../../domain/models/article.dart';
+import '../../domain/models/source.dart';
+import '../../utils/constants/lists.dart';
+import '../../utils/constants/strings.dart';
 import '../../utils/extensions/scroll_controller.dart';
 import '../cubits/remote_articles/remote_articles_cubit.dart';
 import '../widgets/article_widget.dart';
 
 class BreakingNewsView extends HookWidget {
-  const BreakingNewsView({Key? key}) : super(key: key);
+  const BreakingNewsView({super.key});
 
   @override
   Widget build(BuildContext context) {
     final remoteArticlesCubit = BlocProvider.of<RemoteArticlesCubit>(context);
     final scrollController = useScrollController();
+    final selectedSource = useState<String>(defaultSource);
 
     useEffect(() {
       scrollController.onScrollEndsListener(() {
-        remoteArticlesCubit.getBreakingNewsArticles();
+        remoteArticlesCubit.getBreakingNewsArticles(
+            source: selectedSource.value);
       });
 
       return scrollController.dispose;
@@ -33,6 +38,26 @@ class BreakingNewsView extends HookWidget {
           style: TextStyle(color: Colors.black),
         ),
         actions: [
+          DropdownButton<String>(
+            value: selectedSource.value,
+            icon: const Icon(Ionicons.chevron_down, color: Colors.black),
+            dropdownColor: Colors.white,
+            focusColor: Colors.transparent,
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                selectedSource.value = newValue;
+                remoteArticlesCubit.resetPage();
+                remoteArticlesCubit.getBreakingNewsArticles(
+                    source: selectedSource.value);
+              }
+            },
+            items: sourceNews.map<DropdownMenuItem<String>>((Source source) {
+              return DropdownMenuItem<String>(
+                value: source.id,
+                child: Text(source.name),
+              );
+            }).toList(),
+          ),
           GestureDetector(
             onTap: () => appRouter.push(const SavedArticlesViewRoute()),
             child: const Padding(
@@ -45,11 +70,11 @@ class BreakingNewsView extends HookWidget {
       body: BlocBuilder<RemoteArticlesCubit, RemoteArticlesState>(
         builder: (_, state) {
           switch (state.runtimeType) {
-            case RemoteArticlesLoading:
+            case const (RemoteArticlesLoading):
               return const Center(child: CupertinoActivityIndicator());
-            case RemoteArticlesFailed:
+            case const (RemoteArticlesFailed):
               return const Center(child: Icon(Ionicons.refresh));
-            case RemoteArticlesSuccess:
+            case const (RemoteArticlesSuccess):
               return _buildArticles(
                 scrollController,
                 state.articles,
