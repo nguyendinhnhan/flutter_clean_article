@@ -29,6 +29,7 @@ class _NewsApiService implements NewsApiService {
     String? sources,
     int? page,
     int? pageSize,
+    String? q,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
@@ -36,6 +37,7 @@ class _NewsApiService implements NewsApiService {
       r'sources': sources,
       r'page': page,
       r'pageSize': pageSize,
+      r'q': q,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

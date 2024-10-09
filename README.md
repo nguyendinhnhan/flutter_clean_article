@@ -2,21 +2,23 @@
 
 1. Initial flutter project
 ```flutter pub get```
-2. Run flutter app
+2. Run build runner
+```dart run build_runner build --delete-conflicting-outputs```
+3. Run flutter app
 ```flutter run```
 
 ### Tools/Libraries (Packages)
 #### Packages
 - **retrofit**: is a source code generator package that uses **Dio** as an http client to generate the proper methods we need to deal with REST APIs based on abstraction, it’s inspired by the Android Retrofit.
 - **floor**: is a typesafe, reactive, lightweight source code generator package that uses the sqlite to store its data locally, it’s again inspired by Android Room.
-- **flutter_bloc**: a flutter state management (You can use any kind of state management you prefer to work with such as provider or riverpod).
+- **flutter_bloc**: a flutter state management.
 - **equatable**: a flutter package that makes comparing dart objects by equality is much easier.
 - **get_it**: a service locator (also a runtime dependency injector).
 - **flutter_hooks**: hooks inspired by React Hooks.
 - **auto_route**: a routing package that uses the new Flutter Router instead of the default Navigator.
-- **awesome_dio_interceptor**: an awesome Dio log interceptor (written by me), which logs network requests and response beautifully.
+- **awesome_dio_interceptor**: an awesome Dio log interceptor, which logs network requests and response beautifully.
 - **oktoast**: a customizable and easy-to-use flutter toast message package.
-- **lint**: a flutter package that helps you write clean code which follows the Dart’s Style Guidelines, (explained more later).
+- **lint**: a flutter package that helps you write clean code which follows the Dart’s Style Guidelines.
 
 #### Folder structure diagram
 

@@ -21,6 +21,7 @@ class BreakingNewsView extends HookWidget {
     final remoteArticlesCubit = BlocProvider.of<RemoteArticlesCubit>(context);
     final scrollController = useScrollController();
     final selectedSource = useState<String>(defaultSource);
+    final searchQuery = useState<String>('');
 
     useEffect(() {
       scrollController.onScrollEndsListener(() {
@@ -67,23 +68,57 @@ class BreakingNewsView extends HookWidget {
           ),
         ],
       ),
-      body: BlocBuilder<RemoteArticlesCubit, RemoteArticlesState>(
-        builder: (_, state) {
-          switch (state.runtimeType) {
-            case const (RemoteArticlesLoading):
-              return const Center(child: CupertinoActivityIndicator());
-            case const (RemoteArticlesFailed):
-              return const Center(child: Icon(Ionicons.refresh));
-            case const (RemoteArticlesSuccess):
-              return _buildArticles(
-                scrollController,
-                state.articles,
-                state.noMoreData,
-              );
-            default:
-              return const SizedBox();
-          }
-        },
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: (value) {
+                searchQuery.value = value;
+              },
+              decoration: InputDecoration(
+                hintText: 'Search articles...',
+                hintStyle: TextStyle(color: Colors.grey[600]),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey.withOpacity(0.6)),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                filled: true,
+                fillColor: Colors.white,
+              ),
+            ),
+          ),
+          Expanded(
+            child: BlocBuilder<RemoteArticlesCubit, RemoteArticlesState>(
+              builder: (_, state) {
+                switch (state.runtimeType) {
+                  case const (RemoteArticlesLoading):
+                    return const Center(child: CupertinoActivityIndicator());
+                  case const (RemoteArticlesFailed):
+                    return const Center(child: Icon(Ionicons.refresh));
+                  case const (RemoteArticlesSuccess):
+                    final filteredArticles = state.articles.where((article) {
+                      return article.title
+                              ?.toLowerCase()
+                              .contains(searchQuery.value.toLowerCase()) ??
+                          false;
+                    }).toList();
+                    return _buildArticles(
+                      scrollController,
+                      filteredArticles,
+                      state.noMoreData,
+                    );
+                  default:
+                    return const SizedBox();
+                }
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

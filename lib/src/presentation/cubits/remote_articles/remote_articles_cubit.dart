@@ -25,7 +25,8 @@ class RemoteArticlesCubit
     noMoreData = false;
   }
 
-  Future<void> getBreakingNewsArticles({String? source = defaultSource}) async {
+  Future<void> getBreakingNewsArticles(
+      {String? source = defaultSource, String? query}) async {
     if (isBusy || noMoreData) return;
 
     await run(() async {
@@ -35,7 +36,8 @@ class RemoteArticlesCubit
         data.clear();
       }
       final response = await _apiRepository.getBreakingNewsArticles(
-        request: BreakingNewsRequest(page: _page, source: source!),
+        request: BreakingNewsRequest(
+            page: _page, source: source!, q: query), // Pass the query here
       );
 
       if (response is DataSuccess) {

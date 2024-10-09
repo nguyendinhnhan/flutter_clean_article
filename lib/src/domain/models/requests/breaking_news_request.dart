@@ -9,11 +9,13 @@ class BreakingNewsRequest {
   final String source;
   final int page;
   final int pageSize;
+  final String? q;
 
   BreakingNewsRequest({
     this.apiKey = defaultApiKey,
     this.source = defaultSource,
     this.page = 1,
     this.pageSize = defaultPageSize,
+    this.q,
   });
 }

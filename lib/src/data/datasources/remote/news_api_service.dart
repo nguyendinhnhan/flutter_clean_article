@@ -21,5 +21,6 @@ abstract class NewsApiService {
     @Query("sources") String? sources,
     @Query("page") int? page,
     @Query("pageSize") int? pageSize,
+    @Query("q") String? q,
   });
 }
